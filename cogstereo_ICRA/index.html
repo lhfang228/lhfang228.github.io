@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="CogStereo embeds implicit spatial cognition from monocular depth foundation models into stereo matching for state-of-the-art zero-shot generalization.">
+  <meta property="og:title" content="CogStereo: Neural Stereo Matching with Implicit Spatial Cognition Embedding">
+  <meta property="og:description"
+    content="Cognition-driven stereo matching with dual-condition refinement and strong cross-domain generalization.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="docs/assets/images/teaser_motivation.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CogStereo: Neural Stereo Matching with Implicit Spatial Cognition Embedding">
+  <meta name="twitter:description"
+    content="Embedding spatial cognition from Depth Anything v2 into stereo matching for SOTA zero-shot generalization.">
+  <meta name="author" content="Lihuang Fang, RCV Lab, SUSTech">
+  <link rel="icon" type="image/svg+xml" href="docs/assets/images/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="docs/assets/images/favicon.ico?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css?v=4">
+
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/lightbox.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar is-white site-navbar" role="navigation" aria-label="main navigation">
+    <div class="container is-max-desktop">
+      <div class="navbar-brand">
+        <a class="navbar-item brand-name" href="#"><i>CogStereo</i></a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#abstract">Abstract</a>
+          <a class="navbar-item" href="#contributions">Contributions</a>
+          <a class="navbar-item" href="#method">Method</a>
+          <a class="navbar-item" href="#results">Results</a>
+          <a class="navbar-item" href="#acknowledgements">Acknowledgements</a>
+          <a class="navbar-item" href="#BibTeX">BibTeX</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero hero-main">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-2 publication-title">
+                <i>CogStereo</i>: Neural Stereo Matching with Implicit Spatial Cognition Embedding
+              </h1>
+
+              <div class="badge-row">
+                <span class="tag icra-badge">ICRA 2026</span>
+                <span class="tag paper-badge">arXiv</span>
+                <span class="tag metric-badge">Scene Flow EPE 0.35</span>
+              </div>
+
+              <div class="is-size-5 publication-authors authors-line">
+                <a href="https://lhfang228.github.io/" target="_blank" rel="noopener noreferrer" class="author-block">Lihuang Fang<sup>1</sup></a>,
+                <a href="mailto:huxiao1@idea.edu.cn" class="author-block">Xiao Hu<sup>2</sup></a>,
+                <a href="https://scholar.google.com/citations?user=m9AfyE8AAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="author-block">Yuchen Zou<sup>3</sup></a>,
+                <a href="https://scholar.google.com/citations?user=J7UkpAIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="author-block">Hong Zhang<sup>1,*</sup></a>
+              </div>
+
+              <div class="is-size-6 publication-authors affiliations-line">
+                <sup>1</sup>
+                <a href="https://rcvlab.eee.sustech.edu.cn/" target="_blank" rel="noopener noreferrer" class="affiliation-link">Robotics and Computer Vision (RCV) Lab</a>,
+                <a href="https://www.sustech.edu.cn/en/" target="_blank" rel="noopener noreferrer" class="affiliation-link">Southern University of Science and Technology (SUSTech)</a>
+                <br>
+                <sup>2</sup>
+                <a href="https://www.idea.edu.cn/" target="_blank" rel="noopener noreferrer" class="affiliation-link">International Digital Economy Academy (IDEA)</a>
+                &emsp;
+                <sup>3</sup>
+                <a href="https://en.xjtu.edu.cn/" target="_blank" rel="noopener noreferrer" class="affiliation-link">Xi'an Jiaotong University (XJTU)</a>
+              </div>
+              <div class="is-size-7 corr-line">
+                <sup>*</sup> Corresponding author: <a href="mailto:hzhang@sustech.edu.cn">hzhang@sustech.edu.cn</a>
+              </div>
+
+              <div class="publication-links">
+                <a href="https://arxiv.org/abs/2510.22119" target="_blank" rel="noopener noreferrer"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span>
+                </a>
+                <a href="https://arxiv.org/pdf/2510.22119" target="_blank" rel="noopener noreferrer"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
+                </a>
+                <a href="https://github.com/lhfang228/CogStereo" target="_blank" rel="noopener noreferrer"
+                  class="external-link button is-normal is-rounded is-dark wip-link">
+                  <span class="icon"><i class="fab fa-github"></i></span><span>Code (Updating)</span>
+                </a>
+                <a href="https://huggingface.co/papers/2510.22119" target="_blank" rel="noopener noreferrer"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-robot"></i></span><span>HF Paper</span>
+                </a>
+                <a href="https://scholar.google.com/citations?hl=en&user=pFazUOQAAAAJ" target="_blank" rel="noopener noreferrer"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-google-scholar"></i></span><span>Scholar</span>
+                </a>
+                <a href="https://rcvlab.eee.sustech.edu.cn/" target="_blank" rel="noopener noreferrer"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-university"></i></span><span>RCV Lab</span>
+                </a>
+                <span class="external-link button is-normal is-rounded is-dark disabled-link">
+                  <span class="icon"><i class="fab fa-youtube"></i></span>
+                  <span style="text-decoration: line-through;">Video</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser" id="teaser">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <figure class="figure-wrap">
+            <picture>
+              <source srcset="./docs/assets/images/teaser_motivation.webp" type="image/webp">
+              <img src="./docs/assets/images/teaser_motivation.png" alt="Motivation of CogStereo"
+                class="figure-img" fetchpriority="high" decoding="async" data-lightbox
+                data-webp-src="./docs/assets/images/teaser_motivation.webp" />
+            </picture>
+            <figcaption class="figure-caption">
+              Modern stereo networks fail in <strong>textureless</strong>, <strong>reflective</strong>, and
+              <strong>occluded</strong> regions. CogStereo embeds implicit <strong>spatial cognition (SC)</strong>
+              from depth foundation models to recover globally consistent disparities.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="abstract">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 section-heading">Abstract</h2>
+            <div class="content has-text-justified abstract-text">
+              <p>
+                Deep stereo matching has advanced significantly on benchmark datasets through fine-tuning but falls
+                short of the zero-shot generalization seen in foundation models in other vision tasks. We introduce
+                <strong>CogStereo</strong>, a framework that addresses challenging regions such as occlusions and weak
+                textures without relying on dataset-specific priors. CogStereo embeds implicit spatial cognition into the
+                refinement process by using monocular depth features as priors, capturing holistic scene understanding
+                beyond local correspondences. A dual-conditional refinement mechanism combines pixel-wise uncertainty with
+                cognition-guided features for consistent global correction. Experiments on Scene Flow, KITTI, Middlebury,
+                ETH3D, EuRoC, and real-world driving scenes demonstrate state-of-the-art accuracy and cross-domain
+                generalization.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-small" id="contributions">
+      <div class="container is-max-desktop">
+        <div class="has-text-centered"><h2 class="title is-3 section-heading">Key Contributions</h2></div>
+        <div class="columns is-multiline is-centered contrib-grid">
+          <div class="column is-one-third">
+            <div class="contrib-card">
+              <div class="contrib-icon"><i class="fas fa-brain"></i></div>
+              <h3 class="title is-5">Implicit Spatial Cognition</h3>
+              <p>Embed DAv2 feature representations as SC priors instead of explicit depth fusion, enabling object-level scene understanding in stereo matching.</p>
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="contrib-card">
+              <div class="contrib-icon"><i class="fas fa-sliders-h"></i></div>
+              <h3 class="title is-5">Dual-Condition Refinement</h3>
+              <p>UG-SCA integrates uncertainty (where to correct) with cognition features (how to correct), while LU-KSS prevents metric drift during implicit optimization.</p>
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="contrib-card">
+              <div class="contrib-icon"><i class="fas fa-globe-americas"></i></div>
+              <h3 class="title is-5">Zero-Shot Generalization</h3>
+              <p>Trained only on Scene Flow, CogStereo generalizes to Middlebury, ETH3D, KITTI, EuRoC SLAM, and in-the-wild driving scenes with SOTA performance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-small is-light" id="method">
+      <div class="container is-max-desktop">
+        <div class="has-text-centered"><h2 class="title is-3 section-heading">Method Overview</h2></div>
+        <p class="method-desc">
+          CogStereo operates in two stages: (1) cost-volume uncertainty pre-training with an Uncertainty Adapter, and
+          (2) dual-condition refinement via <strong>UG-SCA</strong>, combining pixel uncertainty with DAv2 spatial
+          cognition. <strong>LU-KSS</strong> alignment and <strong>ADDG-Loss</strong> further stabilize metric accuracy.
+        </p>
+
+        <div class="columns is-multiline pipeline-cards">
+          <div class="column is-4">
+            <div class="pipeline-card">
+              <span class="pipeline-step">Stage 1</span>
+              <h4>Uncertainty Prior</h4>
+              <p>Jointly predict log-variance and disparity at the cost-volume stage to identify unreliable regions early.</p>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="pipeline-card pipeline-card-highlight">
+              <span class="pipeline-step">Stage 2</span>
+              <h4>UG-SCA Refinement</h4>
+              <p>Uncertainty-conditioned attention over DAv2 features propagates reliable structure into ambiguous areas.</p>
+            </div>
+          </div>
+          <div class="column is-4">
+            <div class="pipeline-card">
+              <span class="pipeline-step">Stabilizers</span>
+              <h4>LU-KSS + ADDG</h4>
+              <p>KNN scale-shift alignment anchors low-uncertainty pixels; ADDG penalizes abrupt depth changes.</p>
+            </div>
+          </div>
+        </div>
+
+        <figure class="figure-wrap">
+          <picture>
+            <source srcset="./docs/assets/images/framework_overview.webp" type="image/webp">
+            <img src="./docs/assets/images/framework_overview.png" alt="CogStereo framework overview"
+              class="figure-img figure-img-wide" loading="lazy" decoding="async" data-lightbox
+              data-webp-src="./docs/assets/images/framework_overview.webp" />
+          </picture>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section hero is-small" id="results">
+      <div class="container is-max-desktop">
+        <div class="has-text-centered"><h2 class="title is-3 section-heading">Results</h2></div>
+        <p class="vis-desc">Click any figure to zoom. Figures are exported from the arXiv LaTeX source.</p>
+
+        <div class="result-block">
+          <h3 class="title is-5 result-title">Zero-Shot Qualitative Comparison</h3>
+          <figure class="figure-wrap">
+            <picture>
+              <source srcset="./docs/assets/images/zero_shot_comparison.webp" type="image/webp">
+              <img src="./docs/assets/images/zero_shot_comparison.png"
+                alt="Zero-shot qualitative comparison on in-the-wild images" class="figure-img" loading="lazy"
+                decoding="async" data-lightbox data-webp-src="./docs/assets/images/zero_shot_comparison.webp" />
+            </picture>
+            <figcaption class="figure-caption-small">
+              Red: occlusions; green: reflections; yellow: weak textures. CogStereo outperforms IGEV, Selective-IGEV, and FoundationStereo.
+            </figcaption>
+          </figure>
+        </div>
+
+        <hr class="vis-divider">
+
+        <div class="result-block">
+          <h3 class="title is-5 result-title">EuRoC Zero-Shot Generalization</h3>
+          <figure class="figure-wrap">
+            <picture>
+              <source srcset="./docs/assets/images/euroc_zero_shot.webp" type="image/webp">
+              <img src="./docs/assets/images/euroc_zero_shot.png"
+                alt="Zero-shot prediction on EuRoC dataset" class="figure-img" loading="lazy" decoding="async"
+                data-lightbox data-webp-src="./docs/assets/images/euroc_zero_shot.webp" />
+            </picture>
+            <figcaption class="figure-caption-small">
+              EuRoC SLAM scenes with weak texture, reflectance, translucency, and occlusion — CogStereo maintains structural coherence.
+            </figcaption>
+          </figure>
+        </div>
+
+        <hr class="vis-divider">
+
+        <div class="result-block">
+          <h3 class="title is-5 result-title">Multi-Benchmark Comparison</h3>
+          <figure class="figure-wrap">
+            <picture>
+              <source srcset="./docs/assets/images/multi_benchmark.webp" type="image/webp">
+              <img src="./docs/assets/images/multi_benchmark.png"
+                alt="Zero-shot comparison on Middlebury, ETH3D, and EuRoC" class="figure-img" loading="lazy"
+                decoding="async" data-lightbox data-webp-src="./docs/assets/images/multi_benchmark.webp" />
+            </picture>
+            <figcaption class="figure-caption-small">
+              Middlebury (row 1), ETH3D (row 2), EuRoC SLAM (rows 3–4). CogStereo excels especially in occluded and textureless regions.
+            </figcaption>
+          </figure>
+        </div>
+
+        <hr class="vis-divider">
+
+        <div class="result-block">
+          <h3 class="title is-5 result-title">Uncertainty-Guided Refinement</h3>
+          <figure class="figure-wrap">
+            <picture>
+              <source srcset="./docs/assets/images/uncertainty_ablation.webp" type="image/webp">
+              <img src="./docs/assets/images/uncertainty_ablation.png"
+                alt="Effectiveness of uncertainty masking" class="figure-img" loading="lazy" decoding="async"
+                data-lightbox data-webp-src="./docs/assets/images/uncertainty_ablation.webp" />
+            </picture>
+            <figcaption class="figure-caption-small">
+              Masking high-uncertainty pixels progressively reduces EPE, validating the cost-volume uncertainty prior.
+            </figcaption>
+          </figure>
+        </div>
+
+        <hr class="vis-divider">
+
+        <div class="result-block">
+          <h3 class="title is-5 result-title">Zero-Shot Quantitative Comparison</h3>
+          <p class="figure-caption-small table-note">
+            All methods trained exclusively on Scene Flow. Lower is better.
+            <span class="table-legend"><span class="legend-best">Best</span> · <span class="legend-second">Second best</span></span>
+          </p>
+          <div class="table-container">
+            <table class="table is-bordered is-narrow is-fullwidth results-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Method</th>
+                  <th colspan="3">Middlebury BP-2 ↓</th>
+                  <th colspan="3">ETH3D BP-1 ↓</th>
+                  <th colspan="3">KITTI-12 D1 ↓</th>
+                  <th colspan="3">KITTI-15 D1 ↓</th>
+                </tr>
+                <tr>
+                  <th>NOC</th><th>OCC</th><th>ALL</th>
+                  <th>NOC</th><th>OCC</th><th>ALL</th>
+                  <th>NOC</th><th>OCC</th><th>ALL</th>
+                  <th>NOC</th><th>OCC</th><th>ALL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>ACVNet</td><td>22.1</td><td>47.4</td><td>25.7</td><td>8.7</td><td>19.6</td><td>9.2</td><td>12.9</td><td>54.5</td><td>13.9</td><td>11.3</td><td>32.9</td><td>11.7</td></tr>
+                <tr><td>Mask-CFNet</td><td>—</td><td>—</td><td>13.7</td><td>—</td><td>—</td><td>5.7</td><td>—</td><td>—</td><td>4.8</td><td>—</td><td>—</td><td>5.8</td></tr>
+                <tr><td>RAFT-Stereo</td><td>9.1</td><td>28.0</td><td>12.0</td><td>2.9</td><td>6.0</td><td>3.0</td><td>4.3</td><td>28.4</td><td>4.7</td><td>5.3</td><td>12.7</td><td>5.5</td></tr>
+                <tr><td>PCW-Net</td><td>12.2</td><td>38.0</td><td>15.9</td><td>5.3</td><td>11.7</td><td>5.5</td><td>4.1</td><td>30.2</td><td>4.7</td><td>5.5</td><td>15.0</td><td>5.7</td></tr>
+                <tr><td>CREStereo++</td><td>—</td><td>—</td><td>14.8</td><td>—</td><td>—</td><td>4.4</td><td>—</td><td>—</td><td>4.7</td><td>—</td><td>—</td><td>5.2</td></tr>
+                <tr><td>IGEV</td><td>7.3</td><td>24.3</td><td>9.9</td><td>4.1</td><td>9.8</td><td>4.4</td><td>4.9</td><td>33.7</td><td>5.6</td><td>5.6</td><td>14.3</td><td>5.8</td></tr>
+                <tr><td>IGEV++</td><td>—</td><td>—</td><td>7.8</td><td>—</td><td>—</td><td>4.1</td><td>—</td><td>—</td><td>5.1</td><td>—</td><td>—</td><td>5.9</td></tr>
+                <tr><td>NMRF-Stereo</td><td>—</td><td>—</td><td>7.5</td><td>—</td><td>—</td><td>3.8</td><td>—</td><td>—</td><td>4.2</td><td>—</td><td>—</td><td>5.1</td></tr>
+                <tr><td>Selective-IGEV</td><td>6.7</td><td>22.6</td><td>9.2</td><td>4.1</td><td>9.8</td><td>4.4</td><td>5.1</td><td>31.9</td><td>5.7</td><td>5.7</td><td>13.8</td><td>5.9</td></tr>
+                <tr><td>FoundationStereo*</td><td>—</td><td>—</td><td class="is-second">5.5</td><td>—</td><td>—</td><td class="is-second">1.8</td><td>—</td><td>—</td><td class="is-second">3.2</td><td>—</td><td>—</td><td class="is-second">4.9</td></tr>
+                <tr><td>DEFOMStereo-L*</td><td class="is-second">4.4</td><td class="is-second">20.6</td><td>6.9</td><td class="is-second">2.1</td><td class="is-second">5.1</td><td>2.2</td><td class="is-second">3.8</td><td class="is-second">22.0</td><td>4.2</td><td class="is-second">4.8</td><td class="is-second">12.6</td><td>5.0</td></tr>
+                <tr class="is-selected"><td><strong>CogStereo (Ours)</strong></td><td><strong>4.2</strong></td><td><strong>10.0</strong></td><td><strong>5.1</strong></td><td><strong>1.5</strong></td><td><strong>4.0</strong></td><td><strong>1.6</strong></td><td><strong>2.7</strong></td><td><strong>16.3</strong></td><td><strong>3.0</strong></td><td><strong>4.2</strong></td><td><strong>9.1</strong></td><td><strong>4.3</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="metrics-row columns is-centered">
+            <div class="column is-narrow">
+              <div class="metric-card">
+                <div class="metric-value">0.35</div>
+                <div class="metric-label">Scene Flow EPE (px)</div>
+              </div>
+            </div>
+            <div class="column is-narrow">
+              <div class="metric-card">
+                <div class="metric-value">−25.5%</div>
+                <div class="metric-label">vs. IGEV baseline</div>
+              </div>
+            </div>
+            <div class="column is-narrow">
+              <div class="metric-card">
+                <div class="metric-value">0.3s</div>
+                <div class="metric-label">Inference (RTX 3090)</div>
+              </div>
+            </div>
+          </div>
+          <p class="figure-caption-small">* Methods utilizing Depth Anything.</p>
+        </div>
+
+        <hr class="vis-divider">
+
+        <div class="result-block">
+          <h3 class="title is-5 result-title">Ablation Study (Scene Flow)</h3>
+          <div class="table-container ablation-table-wrap">
+            <table class="table is-bordered is-narrow is-fullwidth ablation-table">
+              <thead>
+                <tr><th>Configuration</th><th>EPE ↓</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>IGEV baseline</td><td>0.47</td></tr>
+                <tr><td>w/o UG-SCA</td><td>0.44</td></tr>
+                <tr><td>w/o DAv2 (SC features)</td><td>0.46</td></tr>
+                <tr><td>w/o LU-KSS</td><td>0.49</td></tr>
+                <tr><td>w/o ADDG-Loss</td><td>0.36</td></tr>
+                <tr class="is-selected"><td><strong>Full CogStereo</strong></td><td><strong>0.35</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="figure-caption-small">
+            Each module contributes to the final performance; removing LU-KSS causes metric drift (EPE 0.49 &gt; baseline).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="acknowledgements">
+      <div class="container is-max-desktop content">
+        <h2 class="title is-3 section-heading has-text-centered">Acknowledgements</h2>
+        <p class="has-text-centered ack-intro">
+          CogStereo builds upon the following works and resources. We thank the authors and the community.
+        </p>
+        <div class="columns is-multiline is-centered ack-grid">
+          <div class="column is-half">
+            <div class="ack-card">
+              <h3 class="title is-6">Stereo matching &amp; backbones</h3>
+              <ul>
+                <li><a href="https://github.com/princeton-vl/IGEV" target="_blank" rel="noopener noreferrer">IGEV</a> — iterative geometry encoding volume</li>
+                <li><a href="https://github.com/princeton-vl/RAFT-Stereo" target="_blank" rel="noopener noreferrer">RAFT-Stereo</a> — recurrent refinement</li>
+              </ul>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="ack-card">
+              <h3 class="title is-6">Spatial cognition (monocular depth)</h3>
+              <ul>
+                <li><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener noreferrer">Depth Anything v2 (DAv2)</a> — implicit spatial cognition features</li>
+              </ul>
+            </div>
+          </div>
+          <div class="column is-full">
+            <div class="ack-card">
+              <h3 class="title is-6">Related stereo methods (compared in the paper)</h3>
+              <p class="ack-links">
+                <a href="https://github.com/ToughMeow/DeFoMStereo" target="_blank" rel="noopener noreferrer">DEFOMStereo</a>,
+                <a href="https://github.com/facebookresearch/foundation-stereo" target="_blank" rel="noopener noreferrer">FoundationStereo</a>,
+                <a href="https://github.com/Master-chen/NMRF-Stereo" target="_blank" rel="noopener noreferrer">NMRF-Stereo</a>,
+                <a href="https://github.com/XiandaGuo/Selective-IGEV" target="_blank" rel="noopener noreferrer">Selective-IGEV</a>,
+                <a href="https://github.com/megvii-research/CREStereo" target="_blank" rel="noopener noreferrer">CREStereo</a>
+              </p>
+              <p class="ack-datasets">Datasets: Scene Flow, KITTI 2012/2015, Middlebury 2014, ETH3D, EuRoC.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title section-heading">BibTeX</h2>
+          <button id="copy-bibtex" class="button is-small is-rounded is-dark" type="button">Copy BibTeX</button>
+        </div>
+        <pre><code id="bibtex-code">@inproceedings{fang2026cogstereo,
+  title     = {CogStereo: Neural Stereo Matching with Implicit Spatial Cognition Embedding},
+  author    = {Fang, Lihuang and Hu, Xiao and Zou, Yuchen and Zhang, Hong},
+  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
+  year      = {2026}
+}</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer site-footer">
+    <div class="content has-text-centered">
+      <p>
+        &copy; 2026 CogStereo Team &nbsp;|&nbsp;
+        <a href="https://rcvlab.eee.sustech.edu.cn/" target="_blank" rel="noopener">RCV Lab, SUSTech</a> &nbsp;|&nbsp;
+        <a href="https://arxiv.org/abs/2510.22119" target="_blank" rel="noopener">arXiv:2510.22119</a> &nbsp;|&nbsp;
+        <a href="https://github.com/lhfang228/CogStereo" target="_blank" rel="noopener">GitHub</a> &nbsp;|&nbsp;
+        Template from <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> /
+        <a href="https://yuchenzou.github.io/FlowPalm/" target="_blank" rel="noopener">FlowPalm</a>
+      </p>
+    </div>
+  </footer>
+
+  <div id="image-lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <img class="lightbox-img" alt="">
+    <p class="lightbox-caption"></p>
+  </div>
+
+</body>
+</html>
