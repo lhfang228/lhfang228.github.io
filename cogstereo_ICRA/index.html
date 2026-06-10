@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css?v=4">
+  <link rel="stylesheet" href="./static/css/index.css?v=5">
 
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/lightbox.js"></script>
@@ -46,6 +46,7 @@
       <div id="navMenu" class="navbar-menu">
         <div class="navbar-end">
           <a class="navbar-item" href="#abstract">Abstract</a>
+          <a class="navbar-item" href="#video">Video</a>
           <a class="navbar-item" href="#contributions">Contributions</a>
           <a class="navbar-item" href="#method">Method</a>
           <a class="navbar-item" href="#results">Results</a>
@@ -119,10 +120,9 @@
                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fas fa-university"></i></span><span>RCV Lab</span>
                 </a>
-                <span class="external-link button is-normal is-rounded is-dark disabled-link">
-                  <span class="icon"><i class="fab fa-youtube"></i></span>
-                  <span style="text-decoration: line-through;">Video</span>
-                </span>
+                <a href="#video" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-film"></i></span><span>Video</span>
+                </a>
               </div>
             </div>
           </div>
@@ -168,6 +168,26 @@
                 generalization.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-small is-light" id="video">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3 section-heading">Video</h2>
+            <p class="vis-desc">ICRA 2026 supplementary video — zero-shot stereo matching and qualitative comparisons.</p>
+            <figure class="figure-wrap video-wrap">
+              <video class="demo-video" controls playsinline preload="metadata"
+                poster="./docs/assets/images/teaser_motivation.webp"
+                aria-label="CogStereo ICRA 2026 supplementary video">
+                <source src="./docs/assets/videos/icra2026_supplementary.mp4" type="video/mp4">
+                Your browser does not support HTML5 video. You can
+                <a href="./docs/assets/videos/icra2026_supplementary.mp4">download the MP4</a>.
+              </video>
+            </figure>
           </div>
         </div>
       </div>

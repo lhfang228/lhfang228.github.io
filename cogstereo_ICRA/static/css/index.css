@@ -862,6 +862,18 @@ body.lightbox-open {
   height: 100%;
 }
 
+.video-wrap {
+  margin-top: 1rem;
+}
+
+.demo-video {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.12);
+  background: #000;
+}
+
 /* =========================================================
    Misc utilities
    ========================================================= */
