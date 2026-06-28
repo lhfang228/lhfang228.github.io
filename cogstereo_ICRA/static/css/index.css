@@ -388,6 +388,24 @@ body {
   background: #eef6ff;
 }
 
+.results-table tr.ours-row td,
+.ablation-table tr.ours-row td {
+  background: #dcfce7 !important;
+  color: #14532d !important;
+  font-weight: 600;
+  border-top: 2px solid #86efac;
+  border-bottom: 2px solid #86efac;
+}
+
+.results-table tr.ours-row td strong,
+.ablation-table tr.ours-row td strong {
+  color: #14532d !important;
+}
+
+.results-table tbody tr:nth-child(even):not(.ours-row):not(.is-selected) {
+  background: #fafbfc;
+}
+
 .results-table td.is-second {
   background: #fffbeb;
 }
@@ -420,10 +438,6 @@ body {
   color: #92400e;
   padding: 0.1em 0.45em;
   border-radius: 4px;
-}
-
-.results-table tbody tr:nth-child(even):not(.is-selected) {
-  background: #fafbfc;
 }
 
 .results-table td.is-na {
