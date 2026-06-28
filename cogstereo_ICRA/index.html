@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css?v=5">
+  <link rel="stylesheet" href="./static/css/index.css?v=6">
 
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/lightbox.js"></script>
@@ -50,7 +50,6 @@
         <div class="navbar-end">
           <a class="navbar-item" href="#abstract">Abstract</a>
           <a class="navbar-item" href="#video">Video</a>
-          <a class="navbar-item" href="#contributions">Contributions</a>
           <a class="navbar-item" href="#method">Method</a>
           <a class="navbar-item" href="#results">Results</a>
           <a class="navbar-item" href="#acknowledgements">Acknowledgements</a>
@@ -73,11 +72,10 @@
               <div class="badge-row">
                 <span class="tag icra-badge">ICRA 2026</span>
                 <span class="tag paper-badge">arXiv</span>
-                <span class="tag metric-badge">Scene Flow EPE 0.35</span>
               </div>
 
               <div class="is-size-5 publication-authors authors-line">
-                <a href="https://lhfang228.github.io/" target="_blank" rel="noopener noreferrer" class="author-block">Lihuang Fang<sup>1</sup></a>,
+                <a href="https://rcvlab.eee.sustech.edu.cn/authors/lihuang_fang/" target="_blank" rel="noopener noreferrer" class="author-block">Lihuang Fang<sup>1</sup></a>,
                 <span class="author-block">Xiao Hu<sup>2</sup></span>,
                 <a href="https://scholar.google.com/citations?user=m9AfyE8AAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="author-block">Yuchen Zou<sup>3</sup></a>,
                 <a href="https://scholar.google.com/citations?user=J7UkpAIAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="author-block">Hong Zhang<sup>1</sup></a>
@@ -107,21 +105,6 @@
                 <a href="https://github.com/lhfang228/CogStereo" target="_blank" rel="noopener noreferrer"
                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
-                </a>
-                <a href="https://huggingface.co/papers/2510.22119" target="_blank" rel="noopener noreferrer"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-robot"></i></span><span>HF Paper</span>
-                </a>
-                <a href="https://scholar.google.com/citations?hl=en&user=pFazUOQAAAAJ" target="_blank" rel="noopener noreferrer"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="ai ai-google-scholar"></i></span><span>Scholar</span>
-                </a>
-                <a href="https://rcvlab.eee.sustech.edu.cn/" target="_blank" rel="noopener noreferrer"
-                  class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-university"></i></span><span>RCV Lab</span>
-                </a>
-                <a href="#video" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-film"></i></span><span>Video</span>
                 </a>
               </div>
             </div>
@@ -193,35 +176,6 @@
       </div>
     </section>
 
-    <section class="section hero is-small" id="contributions">
-      <div class="container is-max-desktop">
-        <div class="has-text-centered"><h2 class="title is-3 section-heading">Key Contributions</h2></div>
-        <div class="columns is-multiline is-centered contrib-grid">
-          <div class="column is-one-third">
-            <div class="contrib-card">
-              <div class="contrib-icon"><i class="fas fa-brain"></i></div>
-              <h3 class="title is-5">Implicit Spatial Cognition</h3>
-              <p>Embed DAv2 feature representations as SC priors instead of explicit depth fusion, enabling object-level scene understanding in stereo matching.</p>
-            </div>
-          </div>
-          <div class="column is-one-third">
-            <div class="contrib-card">
-              <div class="contrib-icon"><i class="fas fa-sliders-h"></i></div>
-              <h3 class="title is-5">Dual-Condition Refinement</h3>
-              <p>UG-SCA integrates uncertainty (where to correct) with cognition features (how to correct), while LU-KSS prevents metric drift during implicit optimization.</p>
-            </div>
-          </div>
-          <div class="column is-one-third">
-            <div class="contrib-card">
-              <div class="contrib-icon"><i class="fas fa-globe-americas"></i></div>
-              <h3 class="title is-5">Zero-Shot Generalization</h3>
-              <p>Trained only on Scene Flow, CogStereo generalizes to Middlebury, ETH3D, KITTI, EuRoC SLAM, and in-the-wild driving scenes with SOTA performance.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section hero is-small is-light" id="method">
       <div class="container is-max-desktop">
         <div class="has-text-centered"><h2 class="title is-3 section-heading">Method Overview</h2></div>
@@ -269,7 +223,6 @@
     <section class="section hero is-small" id="results">
       <div class="container is-max-desktop">
         <div class="has-text-centered"><h2 class="title is-3 section-heading">Results</h2></div>
-        <p class="vis-desc">Click any figure to zoom. Figures are exported from the arXiv LaTeX source.</p>
 
         <div class="result-block">
           <h3 class="title is-5 result-title">Zero-Shot Qualitative Comparison</h3>
@@ -429,43 +382,15 @@
     </section>
 
     <section class="section hero is-light" id="acknowledgements">
-      <div class="container is-max-desktop content">
-        <h2 class="title is-3 section-heading has-text-centered">Acknowledgements</h2>
-        <p class="has-text-centered ack-intro">
-          CogStereo builds upon the following works and resources. We thank the authors and the community.
+      <div class="container is-max-desktop content has-text-centered">
+        <h2 class="title is-3 section-heading">Acknowledgements</h2>
+        <p class="ack-intro">
+          We thank the authors of
+          <a href="https://github.com/princeton-vl/IGEV" target="_blank" rel="noopener noreferrer">IGEV</a>,
+          <a href="https://github.com/princeton-vl/RAFT-Stereo" target="_blank" rel="noopener noreferrer">RAFT-Stereo</a>, and
+          <a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener noreferrer">Depth Anything v2</a>
+          for their open-source implementations and pretrained models.
         </p>
-        <div class="columns is-multiline is-centered ack-grid">
-          <div class="column is-half">
-            <div class="ack-card">
-              <h3 class="title is-6">Stereo matching &amp; backbones</h3>
-              <ul>
-                <li><a href="https://github.com/princeton-vl/IGEV" target="_blank" rel="noopener noreferrer">IGEV</a> — iterative geometry encoding volume</li>
-                <li><a href="https://github.com/princeton-vl/RAFT-Stereo" target="_blank" rel="noopener noreferrer">RAFT-Stereo</a> — recurrent refinement</li>
-              </ul>
-            </div>
-          </div>
-          <div class="column is-half">
-            <div class="ack-card">
-              <h3 class="title is-6">Spatial cognition (monocular depth)</h3>
-              <ul>
-                <li><a href="https://github.com/DepthAnything/Depth-Anything-V2" target="_blank" rel="noopener noreferrer">Depth Anything v2 (DAv2)</a> — implicit spatial cognition features</li>
-              </ul>
-            </div>
-          </div>
-          <div class="column is-full">
-            <div class="ack-card">
-              <h3 class="title is-6">Related stereo methods (compared in the paper)</h3>
-              <p class="ack-links">
-                <a href="https://github.com/ToughMeow/DeFoMStereo" target="_blank" rel="noopener noreferrer">DEFOMStereo</a>,
-                <a href="https://github.com/facebookresearch/foundation-stereo" target="_blank" rel="noopener noreferrer">FoundationStereo</a>,
-                <a href="https://github.com/Master-chen/NMRF-Stereo" target="_blank" rel="noopener noreferrer">NMRF-Stereo</a>,
-                <a href="https://github.com/XiandaGuo/Selective-IGEV" target="_blank" rel="noopener noreferrer">Selective-IGEV</a>,
-                <a href="https://github.com/megvii-research/CREStereo" target="_blank" rel="noopener noreferrer">CREStereo</a>
-              </p>
-              <p class="ack-datasets">Datasets: Scene Flow, KITTI 2012/2015, Middlebury 2014, ETH3D, EuRoC.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -492,8 +417,7 @@
         <a href="https://rcvlab.eee.sustech.edu.cn/" target="_blank" rel="noopener">RCV Lab, SUSTech</a> &nbsp;|&nbsp;
         <a href="https://arxiv.org/abs/2510.22119" target="_blank" rel="noopener">arXiv:2510.22119</a> &nbsp;|&nbsp;
         <a href="https://github.com/lhfang228/CogStereo" target="_blank" rel="noopener">GitHub</a> &nbsp;|&nbsp;
-        Template from <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> /
-        <a href="https://yuchenzou.github.io/FlowPalm/" target="_blank" rel="noopener">FlowPalm</a>
+        Page template adapted from <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>
       </p>
     </div>
   </footer>
