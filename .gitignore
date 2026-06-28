@@ -1,2 +1,10 @@
 .DS_Store
 *.swp
+
+# Personal homepage — local preview only (not pushed until ready)
+/index.html
+/css/
+/js/
+/assets/
+/scripts/
+/README.md
