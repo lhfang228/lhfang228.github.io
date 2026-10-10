@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f5">
+  <meta name="description" content="EmbodiedFlow contextualizes semantic features for robust optical-flow matching in embodied scenarios.">
+  <link rel="canonical" href="https://lhfang228.github.io/EmbodiedFlow/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lhfang228.github.io/EmbodiedFlow/">
+  <meta property="og:title" content="EmbodiedFlow: Semantic-Contextualized Matching for Robust Optical Flow in Embodied Scenarios">
+  <meta property="og:description" content="Semantic-contextualized optical flow for navigation, dexterous hands, and bimanual interaction.">
+  <meta property="og:image" content="https://lhfang228.github.io/EmbodiedFlow/assets/fig1-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>EmbodiedFlow — Semantic-Contextualized Matching for Robust Optical Flow in Embodied Scenarios</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f8f5;
+      --white: #ffffff;
+      --ink: #172629;
+      --secondary: #48585b;
+      --quiet: #687779;
+      --line: #d9e0dc;
+      --accent: #087569;
+      --accent-dark: #07574f;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--sans);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, summary:focus-visible, .figure-viewport:focus-visible { outline: 3px solid #e89152; outline-offset: 3px; }
+    h1, h2, h3, p, figure { margin-top: 0; }
+    .wrap { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+    .skip { position: absolute; top: -60px; left: 12px; z-index: 20; padding: 8px 14px; background: var(--white); }
+    .skip:focus { top: 10px; }
+
+    .site-header { border-bottom: 1px solid var(--line); background: var(--paper); }
+    .header-inner { min-height: 69px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: baseline; gap: 2px; font-weight: 750; font-size: 1.08rem; text-decoration: none; letter-spacing: -.04em; white-space: nowrap; }
+    .brand span { color: var(--accent); }
+    .site-nav { display: flex; gap: 27px; align-items: center; }
+    .site-nav a { color: var(--secondary); font-size: .86rem; text-decoration: none; }
+    .site-nav a:hover, .text-link:hover, .authors a:hover { color: var(--accent); }
+
+    .hero { padding: 65px 0 49px; }
+    .overline, .section-index, .figure-label { color: var(--accent); font-size: .72rem; font-weight: 740; letter-spacing: .17em; line-height: 1.4; text-transform: uppercase; }
+    .overline { margin-bottom: 15px; }
+    h1 { margin-bottom: 25px; font-family: var(--serif); font-size: clamp(4.3rem, 7vw, 6.5rem); font-weight: 400; line-height: .99; letter-spacing: -.067em; }
+    h1 small { display: block; max-width: 1010px; margin-top: 17px; font-family: var(--sans); font-size: clamp(1.65rem, 3.25vw, 2.95rem); font-weight: 530; line-height: 1.15; letter-spacing: -.053em; }
+    .author-block { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 19px 35px; align-items: end; border-top: 1px solid var(--line); padding-top: 20px; }
+    .authors { margin: 0 0 7px; font-size: .99rem; line-height: 1.8; }
+    .authors a { text-decoration-color: #a9c8bf; text-underline-offset: 3px; }
+    .authors sup, .affiliations sup { color: var(--accent); font-weight: 750; font-size: .72em; }
+    .affiliations { display: flex; flex-wrap: wrap; gap: 1px 22px; margin: 0; max-width: 980px; color: var(--quiet); font-size: .79rem; line-height: 1.85; }
+    .hero-links { display: flex; align-items: center; gap: 20px; white-space: nowrap; padding-bottom: 4px; }
+    .text-link { font-size: .89rem; font-weight: 670; color: var(--accent-dark); text-decoration-color: #8ab9ac; text-underline-offset: 5px; }
+
+    main section { scroll-margin-top: 30px; }
+    .opening-figure { padding: 0 0 73px; }
+    .figure-heading { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; border-top: 1px solid var(--ink); padding: 12px 0 10px; }
+    .figure-heading p { margin: 0; }
+    .figure-aside { color: var(--quiet); font-size: .8rem; }
+    .paper-figure { margin: 0; }
+    .figure-viewport { display: block; overflow-x: auto; background: var(--white); border: 1px solid var(--line); scrollbar-color: #a1b9b2 transparent; }
+    .figure-viewport a { display: block; }
+    .figure-viewport img { display: block; width: 100%; height: auto; }
+    .paper-figure figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 15px; padding-top: 10px; color: var(--quiet); font-size: .78rem; line-height: 1.55; }
+    .paper-figure figcaption strong { color: var(--ink); font-weight: 700; }
+    .paper-figure figcaption a { flex: none; color: var(--accent-dark); text-decoration-color: #9fc9bd; text-underline-offset: 3px; }
+    .figure-controls { display: none; }
+
+    .abstract-section { padding: 68px 0 74px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); }
+    .split-head { display: grid; grid-template-columns: 235px minmax(0, 1fr); gap: 55px; }
+    .section-index { margin-bottom: 18px; }
+    h2 { margin-bottom: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(2.65rem, 4.1vw, 4rem); line-height: 1.08; letter-spacing: -.055em; }
+    .abstract-copy { max-width: 770px; padding-top: 3px; font-size: 1.04rem; color: #354549; line-height: 1.87; }
+    .abstract-copy p { margin: 0; }
+    .abstract-copy strong { color: var(--ink); }
+
+    .content-section { padding: 92px 0 0; }
+    .section-heading { display: grid; grid-template-columns: minmax(0, 1fr) 410px; gap: 56px; align-items: end; margin-bottom: 29px; }
+    .section-heading .section-index { margin-bottom: 11px; }
+    .section-heading p:last-child { color: var(--secondary); font-size: .94rem; margin: 0 0 5px; line-height: 1.75; }
+    .method-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 39px 0 0; }
+    .method-step { border-top: 1px solid var(--ink); padding-top: 14px; }
+    .method-step .number { display: block; margin-bottom: 24px; color: var(--accent); font-family: var(--serif); font-size: 1.6rem; line-height: 1; }
+    .method-step h3 { margin-bottom: 6px; font-size: 1rem; font-weight: 680; line-height: 1.4; }
+    .method-step p { margin: 0; color: var(--secondary); font-size: .88rem; line-height: 1.67; }
+
+    .benchmark-section { padding: 92px 0 78px; border-bottom: 1px solid var(--line); }
+    .benchmark-layout { display: grid; grid-template-columns: 1fr 1.35fr; gap: 80px; border-top: 1px solid var(--ink); padding-top: 21px; }
+    .benchmark-layout h2 { margin: 11px 0 17px; }
+    .benchmark-intro { max-width: 380px; color: var(--secondary); font-size: .93rem; line-height: 1.75; }
+    .big-count { margin: 29px 0 0; color: var(--accent); font-family: var(--serif); font-size: clamp(4.5rem, 9vw, 8.3rem); letter-spacing: -.08em; line-height: .86; }
+    .big-count span { display: block; margin-top: 13px; color: var(--quiet); font-family: var(--sans); font-size: .72rem; font-weight: 650; letter-spacing: .14em; line-height: 1.4; text-transform: uppercase; }
+    .benchmark-rows { margin: 0; padding: 0; list-style: none; }
+    .benchmark-rows li { display: grid; grid-template-columns: 35px 1fr auto; gap: 12px; align-items: baseline; border-bottom: 1px solid var(--line); padding: 25px 0; }
+    .benchmark-rows li:first-child { padding-top: 6px; }
+    .benchmark-rows .index { color: var(--accent); font-size: .79rem; font-weight: 700; }
+    .benchmark-rows strong { display: block; font-size: 1.16rem; font-weight: 650; letter-spacing: -.025em; line-height: 1.3; }
+    .benchmark-rows small { display: block; margin-top: 4px; color: var(--quiet); font-size: .82rem; }
+    .benchmark-rows .count { color: var(--ink); font-family: var(--serif); font-size: 1.55rem; white-space: nowrap; }
+    .benchmark-footnote { margin: 16px 0 0; color: var(--quiet); font-size: .78rem; line-height: 1.7; }
+
+    .result-highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin: 30px 0 45px; }
+    .result-highlights article { border-top: 1px solid var(--ink); padding-top: 15px; }
+    .result-highlights .number { display: block; margin-bottom: 6px; color: var(--accent); font-family: var(--serif); font-size: clamp(2.7rem, 4.1vw, 4.2rem); line-height: 1; letter-spacing: -.075em; white-space: nowrap; }
+    .result-highlights strong { display: block; margin-bottom: 7px; font-size: .96rem; font-weight: 680; }
+    .result-highlights p { color: var(--quiet); font-size: .81rem; line-height: 1.55; margin: 0; }
+    .results-table-wrap { overflow-x: auto; border-top: 1px solid var(--line); }
+    .results-table { width: 100%; border-collapse: collapse; min-width: 600px; text-align: left; font-variant-numeric: tabular-nums; }
+    .results-table th, .results-table td { border-bottom: 1px solid var(--line); padding: 11px 10px; font-size: .87rem; }
+    .results-table th { color: var(--quiet); font-size: .72rem; font-weight: 670; letter-spacing: .1em; text-transform: uppercase; }
+    .results-table th:first-child, .results-table td:first-child { padding-left: 0; }
+    .results-table th:last-child, .results-table td:last-child { padding-right: 0; color: var(--accent-dark); font-weight: 740; }
+    .results-table tr.total td { font-weight: 720; }
+    .table-note { color: var(--quiet); font-size: .78rem; line-height: 1.7; margin: 10px 0 0; }
+    .vo-note { display: grid; grid-template-columns: 150px 1fr; gap: 27px; align-items: baseline; margin: 35px 0 0; border-top: 1px solid var(--ink); padding-top: 15px; }
+    .vo-note strong { color: var(--accent-dark); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
+    .vo-note p { margin: 0; max-width: 750px; color: var(--secondary); font-size: .92rem; }
+    .comparison-section { padding-top: 78px; }
+    .comparison-section .section-heading { margin-bottom: 26px; }
+    .comparison-section .paper-figure + .paper-figure { margin-top: 43px; }
+    .comparison-section .figure-heading { margin-top: 39px; }
+
+    .resources-section { padding: 95px 0 105px; }
+    .resources-inner { display: flex; justify-content: space-between; align-items: end; gap: 35px; border-top: 1px solid var(--ink); padding-top: 18px; }
+    .resources-inner h2 { margin: 10px 0 13px; }
+    .resources-inner p:last-child { margin-bottom: 0; color: var(--quiet); font-size: .88rem; }
+    .resource-link { flex: none; min-width: 260px; border-bottom: 1px solid var(--accent); padding: 0 0 10px; color: var(--accent-dark); text-align: left; text-decoration: none; font-weight: 690; }
+    .resource-link span { float: right; }
+    .resource-link:hover { color: var(--ink); }
+    footer { background: #e9efeb; color: var(--quiet); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; padding: 25px 0; font-size: .78rem; }
+    footer a { color: var(--accent-dark); }
+
+    @media (max-width: 900px) {
+      .author-block, .section-heading, .benchmark-layout, .split-head { grid-template-columns: 1fr; }
+      .author-block, .section-heading { gap: 13px; }
+      .split-head { gap: 25px; }
+      .benchmark-layout { gap: 30px; }
+      .hero-links { padding: 0; }
+      .method-steps, .result-highlights { gap: 18px; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: calc(100% - 36px); }
+      .header-inner { min-height: 62px; flex-wrap: wrap; padding: 12px 0 9px; gap: 6px 15px; }
+      .site-nav { width: 100%; gap: 21px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+      .site-nav::-webkit-scrollbar { display: none; }
+      .site-nav a { font-size: .77rem; }
+      .hero { padding: 37px 0 31px; }
+      .overline { margin-bottom: 12px; }
+      h1 { margin-bottom: 21px; font-size: clamp(3.12rem, 13.5vw, 4.3rem); }
+      h1 small { margin-top: 11px; font-size: clamp(1.42rem, 6.2vw, 2.2rem); line-height: 1.17; }
+      .author-block { padding-top: 13px; }
+      .authors { font-size: .91rem; line-height: 1.75; }
+      .affiliations { gap: 0; font-size: .75rem; line-height: 1.7; }
+      .affiliations span { display: block; width: 100%; }
+      .hero-links { margin-top: 3px; gap: 22px; }
+      .text-link { font-size: .83rem; }
+      .opening-figure { padding-bottom: 53px; }
+      .figure-heading { display: block; padding: 10px 0 9px; }
+      .figure-aside { margin-top: 3px !important; }
+      .figure-controls { display: flex; gap: 7px; margin: 0 0 8px; }
+      .figure-controls button { border: 1px solid #bfd5ce; border-radius: 0; padding: 6px 11px; background: transparent; color: var(--accent-dark); font: 680 .74rem var(--sans); cursor: pointer; }
+      .figure-viewport img { width: 820px; max-width: none; }
+      .figure-viewport::after { content: "Swipe to explore the figure →"; position: sticky; left: 0; display: block; width: max-content; padding: 2px 9px; color: #607a73; background: rgba(255,255,255,.94); font-size: .68rem; }
+      .opening-figure .figure-controls { display: none; }
+      #figure-one img { width: 100%; }
+      #figure-one::after { display: none; }
+      .paper-figure figcaption { display: block; }
+      .paper-figure figcaption a { display: inline-block; margin-top: 5px; }
+      .abstract-section { padding: 50px 0 56px; }
+      .section-index { margin-bottom: 8px; }
+      h2 { font-size: 2.8rem; }
+      .abstract-copy { font-size: .94rem; line-height: 1.78; }
+      .content-section { padding-top: 67px; }
+      .section-heading { margin-bottom: 24px; }
+      .section-heading p:last-child { font-size: .88rem; }
+      .method-steps, .result-highlights { grid-template-columns: 1fr; gap: 0; }
+      .method-step { display: grid; grid-template-columns: 42px 1fr; column-gap: 8px; padding: 16px 0 18px; }
+      .method-step .number { grid-row: span 2; margin: 0; font-size: 1.3rem; }
+      .method-step h3 { margin-bottom: 4px; }
+      .benchmark-section { padding: 68px 0 54px; }
+      .benchmark-layout h2 { margin: 7px 0 11px; }
+      .benchmark-intro { font-size: .89rem; }
+      .big-count { margin-top: 20px; font-size: 5.7rem; }
+      .benchmark-rows li { padding: 18px 0; }
+      .benchmark-rows strong { font-size: 1.04rem; }
+      .benchmark-rows small { font-size: .75rem; }
+      .benchmark-rows .count { font-size: 1.35rem; }
+      .result-highlights { margin: 25px 0 25px; }
+      .result-highlights article { padding: 16px 0 18px; }
+      .result-highlights .number { font-size: 3.45rem; }
+      .vo-note { grid-template-columns: 1fr; gap: 7px; }
+      .comparison-section { padding-top: 57px; }
+      .comparison-section .paper-figure + .paper-figure { margin-top: 35px; }
+      .resources-section { padding: 72px 0 82px; }
+      .resources-inner { display: block; }
+      .resource-link { display: block; width: 100%; margin-top: 27px; }
+      .footer-inner { display: block; }
+      .footer-inner span { display: block; }
+      .footer-inner span + span { margin-top: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">EmbodiedFlow<span aria-hidden="true">.</span></a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#abstract">Abstract</a><a href="#method">Method</a><a href="#benchmark">Benchmark</a><a href="#results">Results</a><a href="#resources">Resources</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" id="top" aria-labelledby="page-title">
+      <p class="overline">Research project / Optical flow for embodied scenes</p>
+      <h1 id="page-title">EmbodiedFlow<small>Semantic-Contextualized Matching for Robust Optical Flow in Embodied Scenarios</small></h1>
+      <div class="author-block">
+        <div>
+          <p class="authors">
+            <a href="https://scholar.google.com/citations?hl=en&amp;user=pFazUOQAAAAJ">Lihuang Fang</a><sup>1</sup>,
+            <a href="https://scholar.google.com/citations?user=Ra7B_EoAAAAJ&amp;hl=en">Xiao Hu</a><sup>2</sup>,
+            <a href="https://scholar.google.com/citations?user=m9AfyE8AAAAJ&amp;hl=en">Yuchen Zou</a><sup>3</sup>,
+            Jinghui Qin<sup>4</sup>,
+            <a href="https://www.sustech.edu.cn/zh/faculties/zhanghong.html">Hong Zhang</a><sup>1</sup> <span>(Life Fellow, IEEE)</span>
+          </p>
+          <p class="affiliations" aria-label="Author affiliations">
+            <span><sup>1</sup> Southern University of Science and Technology (SUSTech)</span>
+            <span><sup>2</sup> International Digital Economy Academy (IDEA)</span>
+            <span><sup>3</sup> Xi'an Jiaotong University (XJTU)</span>
+            <span><sup>4</sup> Guangdong University of Technology (GDUT)</span>
+          </p>
+        </div>
+        <div class="hero-links"><a class="text-link" href="https://github.com/lhfang228/EmbodiedFlow_OpticalFlow">GitHub ↗</a><a class="text-link" href="#abstract">Abstract ↓</a></div>
+      </div>
+    </section>
+
+    <section class="opening-figure wrap" aria-labelledby="figure1-heading">
+      <div class="figure-heading"><p class="figure-label" id="figure1-heading">Figure 01 / Motion in embodied scenes</p><p class="figure-aside">Appearance ambiguity · Large displacement · Hand interaction</p></div>
+      <figure class="paper-figure">
+        <div class="figure-controls" role="group" aria-label="Figure 1 view"><button type="button" data-figure-scroll="start" aria-controls="figure-one">EPE profile</button><button type="button" data-figure-scroll="end" aria-controls="figure-one">Flow examples →</button></div>
+        <div class="figure-viewport" id="figure-one" tabindex="0" role="region" aria-label="Figure 1: scroll horizontally to inspect EPE profiles and qualitative examples">
+          <a href="assets/fig1-motion-challenges.jpg" target="_blank" rel="noopener" aria-label="Open Figure 1 at full size"><img src="assets/fig1-preview.jpg" width="1530" height="980" alt="Paper Figure 1: an EPE radar profile and comparisons showing appearance ambiguity, large displacements, and hand interaction in embodied scenes." fetchpriority="high" decoding="async"></a>
+        </div>
+        <figcaption><span><strong>Figure 1.</strong> EPE profiles and challenging examples. Radar axes are independently rescaled; lower EPE is farther from the center.</span><a href="assets/fig1-motion-challenges.jpg" target="_blank" rel="noopener">Open original ↗</a></figcaption>
+      </figure>
+    </section>
+
+    <section class="abstract-section" id="abstract" aria-labelledby="abstract-title">
+      <div class="wrap split-head">
+        <div><p class="section-index">01 / Abstract</p><h2 id="abstract-title">The idea.</h2></div>
+        <div class="abstract-copy"><p>Optical flow represents the per-pixel two-dimensional displacement between video frames, supporting visual odometry and the tracking of hands, tools, and manipulated objects. However, videos captured by robot-mounted or egocentric cameras often contain simultaneous camera, hand, robot-arm, and object motion, introducing appearance ambiguity, large displacement, occlusion, and motion blur that make local appearance cues unreliable. We therefore introduce EmbodiedFlow, which contextualizes semantic features through intra-frame and bidirectional cross-frame attention and fuses them with appearance features for optical-flow matching. We evaluate this design on <strong>EmbodiedFlow-Bench</strong>, which comprises 1,560 image pairs spanning Navigation, Dexterous Hand, and Bimanual Interaction and reports overall performance as the average across the three categories. Among the evaluated methods, EmbodiedFlow achieves the lowest errors both overall and on the Large split, with reductions of 5.5% and 6.7%, respectively, relative to the matched appearance-only baseline. It also reduces EPE by 5.3–13.2% on standard optical-flow benchmarks. Finally, replacing the optical-flow estimator in an RGB-D visual-odometry pipeline with EmbodiedFlow improves trajectory estimation in a dynamic-scene case study, demonstrating its utility for downstream robot perception.</p></div>
+      </div>
+    </section>
+
+    <section class="content-section wrap" id="method" aria-labelledby="method-title">
+      <div class="section-heading"><div><p class="section-index">02 / Method</p><h2 id="method-title">Context, then correspondence.</h2></div><p>EmbodiedFlow brings semantic context into optical-flow matching while retaining appearance detail.</p></div>
+      <figure class="paper-figure">
+        <div class="figure-viewport" tabindex="0" role="region" aria-label="Figure 2: scroll horizontally to inspect the method diagram"><img src="assets/fig2-method.png" width="1530" height="748" alt="EmbodiedFlow architecture: appearance and semantic encoders, intra-frame and bidirectional cross-frame semantic contextualization, feature fusion, and optical-flow decoding." loading="lazy" decoding="async"></div>
+        <figcaption><span><strong>Figure 2.</strong> Semantic contextualization and appearance–semantic fusion precede optical-flow matching and decoding.</span><a href="assets/fig2-method.png" target="_blank" rel="noopener">Open original ↗</a></figcaption>
+      </figure>
+      <div class="method-steps">
+        <div class="method-step"><span class="number">01</span><h3>Within each frame</h3><p>Intra-frame attention gives semantic features the surrounding scene context.</p></div>
+        <div class="method-step"><span class="number">02</span><h3>Across both frames</h3><p>Bidirectional cross-frame attention relates semantic information across the image pair.</p></div>
+        <div class="method-step"><span class="number">03</span><h3>Fuse for matching</h3><p>Contextualized semantic features join appearance features for dense flow estimation.</p></div>
+      </div>
+    </section>
+
+    <section class="benchmark-section wrap" id="benchmark" aria-labelledby="benchmark-title">
+      <div class="benchmark-layout">
+        <div><p class="section-index">03 / Benchmark</p><h2 id="benchmark-title">EmbodiedFlow-Bench.</h2><p class="benchmark-intro">Robot and egocentric motion across navigation, dexterous manipulation, and bimanual interaction.</p><p class="big-count">1,560<span>image pairs / three categories</span></p></div>
+        <div><ol class="benchmark-rows">
+          <li><span class="index">01</span><div><strong>Navigation</strong><small>DynamicReplica (400) + PointOdyssey (360)</small></div><span class="count">760</span></li>
+          <li><span class="index">02</span><div><strong>Dexterous Hand</strong><small>DexYCB hand joints</small></div><span class="count">400</span></li>
+          <li><span class="index">03</span><div><strong>Bimanual Interaction</strong><small>H2O hand joints</small></div><span class="count">400</span></li>
+        </ol><p class="benchmark-footnote">Overall EPE averages the three category scores. The Large split uses the 20% most displaced reference points within each image pair.</p></div>
+      </div>
+    </section>
+
+    <section class="content-section wrap" id="results" aria-labelledby="results-title">
+      <div class="section-heading"><div><p class="section-index">04 / Results</p><h2 id="results-title">Lower error where motion is hard.</h2></div><p>Reference-point EPE versus FlowFormer* under matched retraining settings. Lower is better.</p></div>
+      <div class="result-highlights">
+        <article><span class="number">5.5%</span><strong>Lower Overall EPE</strong><p>10.139 → 9.585 px on EmbodiedFlow-Bench.</p></article>
+        <article><span class="number">6.7%</span><strong>Lower Large EPE</strong><p>23.280 → 21.729 px on large displacements.</p></article>
+        <article><span class="number">5.3–13.2%</span><strong>Lower EPE on standard benchmarks</strong><p>Sintel Clean/Final, KITTI, and SlowFlow training splits.</p></article>
+      </div>
+      <div class="results-table-wrap" role="region" tabindex="0" aria-label="EmbodiedFlow-Bench EPE results; scroll horizontally on small screens">
+        <table class="results-table"><thead><tr><th scope="col">Category</th><th scope="col">FlowFormer* EPE ↓</th><th scope="col">EmbodiedFlow EPE ↓</th></tr></thead><tbody>
+          <tr><td>Navigation</td><td>3.835</td><td>3.371</td></tr>
+          <tr><td>Dexterous Hand</td><td>16.839</td><td>15.742</td></tr>
+          <tr><td>Bimanual Interaction</td><td>9.744</td><td>9.642</td></tr>
+          <tr class="total"><td>Overall</td><td>10.139</td><td>9.585</td></tr>
+          <tr class="total"><td>Large</td><td>23.280</td><td>21.729</td></tr>
+        </tbody></table>
+      </div>
+      <p class="table-note">Among the evaluated methods, EmbodiedFlow has the lowest Overall and Large EPE on EmbodiedFlow-Bench. Large is computed from the highest-displacement 20% of reference points per pair.</p>
+      <div class="vo-note"><strong>Downstream case study</strong><p>Replacing only the flow estimator in a Bonn RGB-D <em>person_tracking</em> visual-odometry pipeline reduces trajectory ATE RMSE from 0.0911 to 0.0671 m (26.4%).</p></div>
+    </section>
+
+    <section class="content-section comparison-section wrap" aria-labelledby="comparison-title">
+      <div class="section-heading"><div><p class="section-index">05 / Visual comparisons</p><h2 id="comparison-title">Motion in context.</h2></div><p>Qualitative results from the benchmark and additional robot and egocentric scenes.</p></div>
+      <div class="figure-heading"><p class="figure-label">Figure 03 / EmbodiedFlow-Bench examples</p><p class="figure-aside">DexYCB · DynamicReplica</p></div>
+      <figure class="paper-figure">
+        <div class="figure-controls" role="group" aria-label="Figure 3 view"><button type="button" data-figure-scroll="start" aria-controls="benchmark-figure">Input frames</button><button type="button" data-figure-scroll="end" aria-controls="benchmark-figure">Flow comparison →</button></div>
+        <div class="figure-viewport" id="benchmark-figure" tabindex="0" role="region" aria-label="Figure 3: scroll horizontally to compare inputs and optical-flow predictions"><img src="assets/fig3-qualitative.png" width="1530" height="680" alt="Three EmbodiedFlow-Bench examples comparing input frames, FlowFormer* predictions, and EmbodiedFlow predictions with reference-point EPE." loading="lazy" decoding="async"></div>
+        <figcaption><span><strong>Figure 3.</strong> Qualitative comparisons on EmbodiedFlow-Bench; lower reference-point EPE is better.</span><a href="assets/fig3-qualitative.png" target="_blank" rel="noopener">Open original ↗</a></figcaption>
+      </figure>
+      <div class="figure-heading"><p class="figure-label">Figure 04 / Robot and egocentric interactions</p><p class="figure-aside">FMB · RoboCOIN · HOI4D</p></div>
+      <figure class="paper-figure">
+        <div class="figure-controls" role="group" aria-label="Figure 4 view"><button type="button" data-figure-scroll="start" aria-controls="robot-figure">Input frames</button><button type="button" data-figure-scroll="end" aria-controls="robot-figure">Flow comparison →</button></div>
+        <div class="figure-viewport" id="robot-figure" tabindex="0" role="region" aria-label="Figure 4: scroll horizontally to compare robot and egocentric inputs and optical flow"><img src="assets/fig4-robot.png" width="1530" height="693" alt="Robot and egocentric interaction examples comparing input frames, FlowFormer* optical flow, and EmbodiedFlow optical flow." loading="lazy" decoding="async"></div>
+        <figcaption><span><strong>Figure 4.</strong> Qualitative examples outside EmbodiedFlow-Bench; they do not contribute to the benchmark metrics.</span><a href="assets/fig4-robot.png" target="_blank" rel="noopener">Open original ↗</a></figcaption>
+      </figure>
+    </section>
+
+    <section class="resources-section wrap" id="resources" aria-labelledby="resources-title">
+      <div class="resources-inner"><div><p class="section-index">06 / Resources</p><h2 id="resources-title">Follow the project.</h2><p>The repository hosts the current project summary. Paper, code, and benchmark links will be added when available.</p></div><a class="resource-link" href="https://github.com/lhfang228/EmbodiedFlow_OpticalFlow">GitHub repository <span aria-hidden="true">↗</span></a></div>
+    </section>
+  </main>
+
+  <footer><div class="wrap footer-inner"><span>© EmbodiedFlow research project</span><span><a href="https://github.com/lhfang228/EmbodiedFlow_OpticalFlow">github.com/lhfang228/EmbodiedFlow_OpticalFlow</a></span></div></footer>
+  <script>
+    for (const button of document.querySelectorAll('[data-figure-scroll]')) {
+      button.addEventListener('click', () => {
+        const viewport = document.getElementById(button.getAttribute('aria-controls'));
+        if (!viewport) return;
+        viewport.scrollTo({
+          left: button.dataset.figureScroll === 'end' ? viewport.scrollWidth - viewport.clientWidth : 0,
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+        });
+      });
+    }
+  </script>
+</body>
+</html>
